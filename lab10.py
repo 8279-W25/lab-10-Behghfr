@@ -21,16 +21,26 @@ def modify_input(eng_text, morse_dict):
 
 def to_morse_code(clean_eng_text, morse_dict):
     morse_code = []
-    for letter in clean_eng_text:
-        morse_code.append(morse_dict[letter])
-        if letter !=  " ":
-            morse_code.append(" ")
-        else:
-            morse_code.append("  ")
+    words = clean_eng_text.split()
+    for i in range(len(words)):
+        word = words[i]
+        for j in range(len(word)):
+            letter = word[j]
+            morse_code.append(morse_dict[letter])
+            if j < len(word) - 1:
+                morse_code.append(" ")
+            elif i < len(words) - 1:
+                morse_code.append("//")
     return morse_code
 
 def main():
-    eng_text = input("Enter an English text: ")
+    try:
+        eng_text = input("Enter an English text: ").strip()
+        if not eng_text:
+            raise ValueError("Text cannot be empty")
+    except Exception as e:
+        print("Error with input:", e)
+        return
 
     morse_dict = make_morse_dict()
     eng_text = modify_input(eng_text, morse_dict)
